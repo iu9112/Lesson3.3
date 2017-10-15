@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>TASK PROFILE</title>
+    <script src="https://code.jquery.com/jquery-3.1.0.min.js" charset="utf-8"></script>
+    <script>
+      function parameter()
+      {
+        function getUrlVars() {
+          let vars = {};
+          let parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function (m, key, value) {
+            vars[key] = value;
+          });
+          return vars;
+        }
+        let vpid = getUrlVars()["_id"];
+        console.log(vpid);
+        document.getElementById('form').action == 'api/users/?_id=' + vpid
+      }
+    </script>
+    <script>
+      $(document).ready(function() {
+        $("[name='delete']").click(function () {
+          $.ajax({
+            url: `/api/tasks/<%= result._id %>`,
+            method: 'DELETE',
+          })
+            .done(function () {
+              window.location.replace("/api/tasks/");
+              alert("Ended deleting");
+            });
+        });
+      });
+    </script>
+    <script>
+      $(document).ready(function() {
+        $("[name='close']").click(function () {
+          $.ajax({
+            url: `/api/tasks/<%= result._id %>`,
+            method: 'PUT',
+            contentType: "application/x-www-form-urlencoded",
+            data: {"status": "Closed"}
+          })
+            .done(function () {
+              window.location.replace(`/api/tasks/<%= result._id %>`);
+              alert("Ended closing");
+            });
+        });
+      });
+    </script>
+    <script>
+      function goToTasks() {
+        window.location.href = "/api/tasks";
+        return false;
+      }
+    </script>
+</head>
+<body>
+<input type="button" value="ALL TASKS" onClick="goToTasks()" />
+<p><b>Task profile</b></p>
+<p>Name: <%= result.name %></p>
+<p>Definition: <%= result.definition %></p>
+<p>Status: <%= result.status %> <input type="button" value="CLOSE" name="close" /></p>
+<p>Responsible user: <%= result.user %>
+<p>Deadline: <%= result.deadline %></p>
+<p></p>
+<p>Delegate task: </p>
+<form action="" id="form" method="post" onsubmit="return parameter()">
+    Username:<br>
+    <input type="text" name="name">
+    <br><br>
+    <input type="submit" value="DELEGATE">
+</form>
+<p></p>
+<input type="button" value="DELETE TASK" name="delete" />
+</body>
+</html>

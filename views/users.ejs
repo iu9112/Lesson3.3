@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>MONGO API</title>
+    <script src="https://code.jquery.com/jquery-3.1.0.min.js" charset="utf-8"></script>
+    <script>
+      function parameter(id)
+      {
+        let vpid = id;
+        console.log(vpid);
+        document.getElementById('form').action == 'api/users/?_id=' + vpid
+      }
+    </script>
+</head>
+<body>
+<input type="button" value="TASKS" onClick="goToTasks()" />
+<p>List of users: </p>
+<ul>
+    <% result.forEach(function(result){ %>
+    <li> <%= result.name %>
+        <form action="" id="form" method="post" onsubmit="return parameter(`<%= result._id %>`)">
+            <input type="text" name="newName">
+            <input type="submit" value="CHANGE"/>
+        </form>
+        <input type="button" value="DELETE" onClick="deleteUser(`<%= result._id %>`)" /> </li>
+    <% }); %>
+</ul>
+<p></p>
+<p>Add new user: </p>
+<form action="/api/users/" method="post">
+    Name:<br>
+    <input type="text" name="name">
+    <br><br>
+    <input type="submit" value="SEND">
+</form>
+<script>
+  function goToTasks() {
+    window.location.href = "/api/tasks";
+    return false;
+  }
+</script>
+<script>
+  function deleteUser(id) {
+    $.ajax({
+      url: `/api/users/${id}`,
+      method: 'DELETE',
+      success: function() {
+        window.location.replace("/api/users/");
+        alert("Ended deleting");
+      }
+    })
+  }
+</script>
+</body>
+</html>

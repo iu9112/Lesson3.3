@@ -1,0 +1,12 @@
+{
+  "name": "mongo",
+  "version": "0.0.1",
+  "dependencies": {
+    "body-parser": "*",
+    "ejs": "*",
+    "express": "*",
+    "mongodb": "*",
+    "mongoose": "*",
+    "socket.io": "*"
+  }
+}

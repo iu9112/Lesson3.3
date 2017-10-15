@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>MONGO API</title>
+    <script src="https://code.jquery.com/jquery-3.1.0.min.js" charset="utf-8"></script>
+</head>
+<body>
+<input type="button" value="USERS" onClick="goToUsers()" />
+<p>List of tasks: </p>
+<ul>
+    <% result.forEach(function(result){ %>
+    <li><p>Name: <%= result.name %></p>
+        <p>Definition: <%= result.definition %></p>
+        <p>Status: <%= result.status %></p>
+        <p>Responsible user: <%= result.user %></p>
+        <p>Deadline: <%= result.deadline %></p>
+        <input type="button" value="MORE INFO" onClick="goToTask(`<%= result._id %>`)" /></li>
+    <% }); %>
+</ul>
+<p></p>
+<p>Add new task: </p>
+<form action="/api/tasks/" method="post">
+    Name:
+    <input type="text" name="name">
+    <br>
+    Definition:
+    <input type="text" name="definition">
+    <br>
+    Status:
+    <input type="text" name="status">
+    <br>
+    Responsible user:
+    <input type="text" name="userName">
+    <br>
+    Deadline:
+    <input type="date" name="deadline" >
+    <br><br>
+    <input type="submit" value="SEND">
+</form>
+<script>
+  function goToTask(uriTail) {
+    console.log("I woork baby");
+    let url = "/api/tasks/" + uriTail;
+    window.location.href = url;
+    return false;
+  }
+</script>
+<script>
+  function goToUsers() {
+    window.location.href = "/api/users";
+    return false;
+  }
+</script>
+</body>
+</html>
